@@ -75,6 +75,7 @@ export default function CislunarTrajectory({
             position={[pos.x, pos.y, pos.z]}
             onClick={(e) => {
               e.stopPropagation();
+              if (e.delta > 5) return;
               onSelectMilestone(m.progress);
             }}
           >

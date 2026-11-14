@@ -59,7 +59,11 @@ export default function CislunarEarth({
   return (
     <group
       position={position}
-      onClick={onSelectEarth}
+      onClick={(e) => {
+        e.stopPropagation();
+        if (e.delta > 5) return;
+        onSelectEarth?.();
+      }}
       onPointerOver={() => {
         document.body.style.cursor = 'pointer';
       }}

@@ -418,6 +418,8 @@ function MobilePerformanceAdapter() {
   return null;
 }
 
+const controlsTarget = new THREE.Vector3(0, 2, 0);
+
 export default function Scene({ sunElevation, earthElevation, heightmapUrl }: SceneProps) {
   const { lowQuality } = useAppStore();
 
@@ -480,7 +482,7 @@ export default function Scene({ sunElevation, earthElevation, heightmapUrl }: Sc
         dampingFactor={0.05}
         minDistance={5}
         maxDistance={180}
-        target={[0, 2, 0]}
+        target={controlsTarget}
         maxPolarAngle={THREE.MathUtils.degToRad(89.5)}
       />
     </View>

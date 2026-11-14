@@ -77,6 +77,7 @@ export default function FloatingAstronaut({ onSelectAstronaut }: FloatingAstrona
       }}
       onClick={(e) => {
         e.stopPropagation();
+        if (e.delta > 5) return;
         if (onSelectAstronaut) {
           onSelectAstronaut();
         }

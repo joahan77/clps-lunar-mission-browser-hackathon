@@ -61,6 +61,7 @@ export default function CLPSSpacecraft({
       ref={groupRef}
       onClick={(e) => {
         e.stopPropagation();
+        if (e.delta > 5) return;
         onSelectSpacecraft?.();
       }}
       onPointerOver={() => {

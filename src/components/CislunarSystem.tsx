@@ -57,7 +57,14 @@ function RealisticMoon() {
   }, [albedoTexture, bumpTexture, gl]);
 
   return (
-    <Sphere args={[12, 64, 64]} position={[0, 0, 0]}>
+    <Sphere
+      args={[12, 64, 64]}
+      position={[0, 0, 0]}
+      onClick={(e) => {
+        e.stopPropagation();
+        if (e.delta > 5) return;
+      }}
+    >
       <meshStandardMaterial
         map={albedoTexture}
         bumpMap={bumpTexture}
@@ -139,20 +146,19 @@ export default function CislunarSystem({
         );
       }
 
-      // Rotate to focused site
-      const activeSite = targetSite || hoveredSite;
-      if (activeSite && !reducedMotion) {
-        const targetY = -THREE.MathUtils.degToRad(activeSite.lon);
+      // Rotate to focused site only when explicitly targeted (prevents hover fighting mouse drag)
+      if (targetSite && !reducedMotion) {
+        const targetY = -THREE.MathUtils.degToRad(targetSite.lon);
         moonGroupRef.current.rotation.y = THREE.MathUtils.lerp(
           moonGroupRef.current.rotation.y,
           targetY,
-          0.08
+          0.05
         );
-        const targetX = -0.75 - THREE.MathUtils.degToRad(activeSite.lat + 90) * 0.5;
+        const targetX = -0.75 - THREE.MathUtils.degToRad(targetSite.lat + 90) * 0.5;
         moonGroupRef.current.rotation.x = THREE.MathUtils.lerp(
           moonGroupRef.current.rotation.x,
           targetX,
-          0.08
+          0.05
         );
       }
     }
@@ -231,7 +237,8 @@ export default function CislunarSystem({
       <CameraControls
         ref={cameraControlsRef}
         makeDefault
-        smoothTime={0.4}
+        smoothTime={0.5}
+        draggingSmoothTime={0.05}
         minDistance={8}
         maxDistance={180}
       />

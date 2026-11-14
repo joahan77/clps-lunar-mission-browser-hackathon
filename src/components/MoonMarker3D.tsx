@@ -90,6 +90,8 @@ export default function MoonMarker3D({
         }}
         onClick={(e) => {
           e.stopPropagation();
+          // Differentiate Drag vs. Click: ignore if mouse moved more than 5px
+          if (e.delta > 5) return;
           onSelect(site);
         }}
       >
@@ -98,13 +100,13 @@ export default function MoonMarker3D({
       </mesh>
 
       {/* Surface Hairline Center Dot (Pure White) */}
-      <mesh position={[0, 0, 0.02]}>
+      <mesh position={[0, 0, 0.02]} raycast={() => null}>
         <circleGeometry args={[isActive ? 0.12 : 0.08, 16]} />
         <meshBasicMaterial color="#ffffff" side={THREE.DoubleSide} depthWrite={false} />
       </mesh>
 
       {/* Surface Hairline Ring (Pure White, 0 yellow) */}
-      <mesh ref={ringRef} position={[0, 0, 0.02]}>
+      <mesh ref={ringRef} position={[0, 0, 0.02]} raycast={() => null}>
         <ringGeometry args={[0.22, 0.32, 32]} />
         <meshBasicMaterial
           ref={ringMatRef}

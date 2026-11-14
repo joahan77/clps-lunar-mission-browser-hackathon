@@ -16,6 +16,8 @@ import {
   Info,
   BookOpen,
   Layers,
+  Activity,
+  ChevronLeft,
   Thermometer,
   Mountain,
   Droplet,
@@ -72,6 +74,7 @@ export default function Dashboard({
     setEducatorMode,
   } = useAppStore();
   const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [mobileTab, setMobileTab] = useState<'3d' | 'telemetry' | 'chart'>('3d');
 
   // Sync slider with automated tour scrubbing
   useEffect(() => {
@@ -127,9 +130,12 @@ export default function Dashboard({
   const isDaylight = currentPoint.sunElevation >= 0;
 
   return (
-    <div className="flex h-screen w-full bg-transparent text-white overflow-hidden select-none">
+    <div className="flex flex-col md:flex-row h-screen w-full bg-transparent text-white overflow-hidden select-none">
       {/* ── Left Telemetry Rail (Sleek Obsidian Mission Cockpit) ── */}
-      <aside className="w-80 flex-shrink-0 bg-[#090a10]/95 backdrop-blur-md border-r border-white/10 flex flex-col justify-between z-10 overflow-hidden">
+      {/* ── Left Telemetry Rail (Desktop Fixed / Mobile Tabbed View) ── */}
+      <aside className={`w-full md:w-80 flex-shrink-0 bg-[#090a10]/95 backdrop-blur-md border-r border-white/10 flex-col justify-between z-20 overflow-hidden ${
+        mobileTab === 'telemetry' ? 'flex flex-1 h-[calc(100vh-56px)] md:h-full' : 'hidden md:flex md:h-full'
+      }`}>
         {/* Top Header & Back to Orbit Navigation */}
         <div className="p-4 border-b border-white/10 flex-shrink-0 space-y-3">
           <div className="flex items-center justify-between gap-2">
@@ -485,7 +491,10 @@ export default function Dashboard({
       </aside>
 
       {/* ── Main Area (3D Terrain Scene + 30-Day Recharts Profile) ── */}
-      <main className="flex-1 flex flex-col h-full min-w-0">
+      {/* ── Main Area (3D Terrain Scene + 30-Day Recharts Profile) ── */}
+      <main className={`flex-1 flex-col min-w-0 ${
+        mobileTab !== 'telemetry' ? 'flex h-[calc(100vh-56px)] md:h-full' : 'hidden md:flex md:h-full'
+      } pb-14 md:pb-0 relative`}>
         {/* ── Educator Mode Welcoming Banner ── */}
         {isEducatorMode && (
           <div className="w-full bg-gradient-to-r from-amber-500/20 via-indigo-950/60 to-amber-500/20 border-b border-amber-500/40 px-4 py-2 flex items-center justify-between text-xs font-mono text-amber-200 z-30 backdrop-blur-md shrink-0">
@@ -505,7 +514,9 @@ export default function Dashboard({
           </div>
         )}
         {/* Top Section (3D Surface View - 60% height) */}
-        <div className="relative w-full h-[60%] bg-transparent overflow-hidden">
+        <div className={`relative w-full bg-transparent overflow-hidden ${
+          mobileTab === 'chart' ? 'hidden md:block md:h-[60%]' : mobileTab === '3d' ? 'h-full md:h-[60%]' : 'h-[60%]'
+        }`}>
           <Scene
             sunElevation={currentPoint.sunElevation}
             earthElevation={currentPoint.earthElevation}
@@ -576,6 +587,39 @@ export default function Dashboard({
             </div>
           </div>
 
+          {/* Mobile-only Quick Timeline Scrubber in 3D View */}
+          <div className="md:hidden absolute bottom-4 left-3 right-3 z-20 bg-black/80 backdrop-blur-md p-2.5 rounded-xl border border-white/15 space-y-1.5 shadow-xl">
+            <div className="flex items-center justify-between text-[11px] font-mono">
+              <span className="text-amber-400 font-bold flex items-center gap-1">
+                <Clock className="w-3 h-3" />
+                {currentPoint.time}
+              </span>
+              <div className="flex items-center gap-1">
+                <button
+                  onClick={() => setCurrentIndex((prev) => Math.max(0, prev - 1))}
+                  className="px-2 py-0.5 rounded bg-white/10 hover:bg-white/20 text-zinc-300 font-mono text-[10px]"
+                >
+                  -1h
+                </button>
+                <button
+                  onClick={() => setCurrentIndex((prev) => Math.min(totalPoints - 1, prev + 1))}
+                  className="px-2 py-0.5 rounded bg-white/10 hover:bg-white/20 text-zinc-300 font-mono text-[10px]"
+                >
+                  +1h
+                </button>
+              </div>
+            </div>
+            <input
+              type="range"
+              min={0}
+              max={Math.max(totalPoints - 1, 0)}
+              step={1}
+              value={currentIndex}
+              onChange={handleSliderChange}
+              className="w-full h-1 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-amber-400"
+            />
+          </div>
+
           {/* Controls Tip */}
           <div className="absolute bottom-3 left-4 z-10 font-mono text-[10px] text-zinc-400 bg-black/60 backdrop-blur-sm px-3 py-1 rounded border border-white/10 pointer-events-none">
             Rotate: Left Click • Pan: Right Click • Zoom: Scroll
@@ -583,7 +627,9 @@ export default function Dashboard({
         </div>
 
         {/* Bottom Section (Dual-Line Telemetry Profile - 40% height) */}
-        <div className="w-full h-[40%] bg-[#08090e] border-t border-white/10 p-4 flex flex-col justify-between overflow-hidden">
+        <div className={`w-full bg-[#08090e] border-t border-white/10 p-3 sm:p-4 flex-col justify-between overflow-hidden ${
+          mobileTab === '3d' ? 'hidden md:flex md:h-[40%]' : mobileTab === 'chart' ? 'flex h-full md:h-[40%]' : 'h-[40%]'
+        }`}>
           {/* Chart Header */}
           <div className="flex items-center justify-between mb-1 flex-shrink-0">
             <div className="flex items-center gap-3">
@@ -723,6 +769,40 @@ export default function Dashboard({
         {/* Footer Attribution */}
         <FooterAttribution />
       </main>
+
+      {/* ── Mobile Bottom Navigation Bar (Hidden on Desktop md:) ── */}
+      <nav className="fixed bottom-0 left-0 right-0 z-40 bg-[#090a10]/95 border-t border-white/10 backdrop-blur-lg py-2 px-6 flex items-center justify-around md:hidden">
+        <button
+          onClick={() => setMobileTab('3d')}
+          className={`flex flex-col items-center gap-1 text-[10px] font-mono transition-colors ${
+            mobileTab === '3d' ? 'text-amber-400 font-bold' : 'text-zinc-400 hover:text-white'
+          }`}
+        >
+          <Compass className="w-4 h-4" />
+          <span>3D Surface</span>
+        </button>
+        <button
+          onClick={() => setMobileTab('telemetry')}
+          className={`flex flex-col items-center gap-1 text-[10px] font-mono transition-colors relative ${
+            mobileTab === 'telemetry' ? 'text-amber-400 font-bold' : 'text-zinc-400 hover:text-white'
+          }`}
+        >
+          <Layers className="w-4 h-4" />
+          <span>Telemetry</span>
+          {isDaylight && isLos && (
+            <span className="absolute 0 right-2 w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+          )}
+        </button>
+        <button
+          onClick={() => setMobileTab('chart')}
+          className={`flex flex-col items-center gap-1 text-[10px] font-mono transition-colors ${
+            mobileTab === 'chart' ? 'text-amber-400 font-bold' : 'text-zinc-400 hover:text-white'
+          }`}
+        >
+          <Activity className="w-4 h-4" />
+          <span>Elevation Chart</span>
+        </button>
+      </nav>
 
       {/* Global FPS Monitor HUD */}
       <FpsMonitor />

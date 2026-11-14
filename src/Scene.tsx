@@ -60,6 +60,7 @@ function getSunColorAndIntensity(elevation: number): { color: THREE.Color; inten
 function LunarSurface({ heightmapUrl }: { heightmapUrl: string }) {
   const heightmap = useTexture(heightmapUrl);
   const verticalExaggeration = useAppStore((s) => s.verticalExaggeration);
+  const lowQuality = useAppStore((s) => s.lowQuality);
   const { gl } = useThree();
   const meshRef = useRef<THREE.Mesh>(null);
 
@@ -100,7 +101,7 @@ function LunarSurface({ heightmapUrl }: { heightmapUrl: string }) {
 
   return (
     <mesh ref={meshRef} rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.01, 0]} receiveShadow castShadow>
-      <planeGeometry args={[80, 80, 256, 256]} />
+      <planeGeometry args={[80, 80, lowQuality ? 128 : 256, lowQuality ? 128 : 256]} />
       <meshStandardMaterial
         color="#71717a"
         roughness={0.88}

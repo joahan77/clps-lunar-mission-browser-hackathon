@@ -417,7 +417,7 @@ export default function OrbitView() {
             </div>
 
             {/* Real-time Astronomical Status Pill */}
-            <div className="bg-black/60 backdrop-blur-md border border-white/10 rounded-full px-4 py-1.5 text-[11px] font-mono text-zinc-300 tabular-nums flex items-center gap-2.5 mr-32 sm:mr-36">
+            <div className="hidden md:flex bg-black/60 backdrop-blur-md border border-white/10 rounded-full px-4 py-1.5 text-[11px] font-mono text-zinc-300 tabular-nums items-center gap-2.5 mr-32 sm:mr-36">
               <span className="flex items-center gap-1.5 text-amber-300">
                 <Sun className="w-3 h-3 text-amber-400" />
                 <span>{liveLunar.phaseName} ({liveLunar.illuminationPct}%)</span>

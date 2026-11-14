@@ -140,7 +140,7 @@ export default function Dashboard({
           <div className="flex items-center gap-2 overflow-x-auto whitespace-nowrap text-xs pb-1 scrollbar-none">
             <button
               onClick={() => navigate('/')}
-              className="text-xs font-mono text-zinc-400 hover:text-white flex items-center gap-1.5 transition-colors py-1 px-2.5 rounded border border-white/10 hover:border-white/20 bg-black/40 shrink-0"
+              className="text-[11px] font-mono font-semibold uppercase tracking-[0.1em] text-zinc-300 hover:text-white flex items-center gap-1.5 transition-colors py-1.5 px-3 rounded border border-white/15 hover:border-white/30 bg-black/40 shrink-0"
               title="Return to Cislunar Orbit"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
@@ -148,7 +148,7 @@ export default function Dashboard({
             </button>
             <button
               onClick={() => navigate('/compare')}
-              className="text-xs font-mono text-zinc-400 hover:text-white flex items-center gap-1.5 transition-colors py-1 px-2.5 rounded border border-white/10 hover:border-white/20 bg-black/40 shrink-0"
+              className="text-[11px] font-mono font-semibold uppercase tracking-[0.1em] text-zinc-300 hover:text-white flex items-center gap-1.5 transition-colors py-1.5 px-3 rounded border border-white/15 hover:border-white/30 bg-black/40 shrink-0"
               title="Compare all landing sites"
             >
               <Layers className="w-3.5 h-3.5 text-indigo-400" />
@@ -156,10 +156,10 @@ export default function Dashboard({
             </button>
             <button
               onClick={toggleEducatorMode}
-              className={`text-xs font-mono px-2.5 py-1 rounded-md transition-all flex items-center gap-1.5 border shrink-0 ${
+              className={`text-[11px] font-mono font-semibold uppercase tracking-[0.1em] px-3 py-1.5 rounded transition-all flex items-center gap-1.5 border shrink-0 ${
                 isEducatorMode
                   ? 'bg-amber-400 text-black border-amber-300 font-bold shadow-[0_0_10px_rgba(251,191,36,0.4)]'
-                  : 'bg-black/40 text-zinc-300 border-white/10 hover:border-white/20 hover:text-white'
+                  : 'bg-black/40 text-zinc-300 border-white/15 hover:border-white/30 hover:text-white'
               }`}
               title="Toggle Educator Mode for simplified explanations"
             >
@@ -516,6 +516,10 @@ export default function Dashboard({
             <BookOpen className="w-3 h-3 text-indigo-400" />
             <span>Data Methods</span>
           </button>
+
+          {/* Cleanly embedded FPS indicator in footer bar - Prevents overlap with Water Ice card */}
+          <FpsMonitor inline />
+
           <span className="text-emerald-400 font-bold tabular-nums">● {totalPoints} PTS</span>
         </div>
       </aside>
@@ -806,8 +810,7 @@ export default function Dashboard({
 
       
 
-      {/* Global FPS Monitor HUD */}
-      <FpsMonitor />
+      {/* Global FPS Monitor HUD is embedded in sidebar footer */}
     </div>
   );
 }

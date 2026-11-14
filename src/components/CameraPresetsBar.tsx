@@ -21,7 +21,7 @@ export default function CameraPresetsBar({
   ];
 
   return (
-    <div className="flex items-center gap-1.5 p-1 bg-black/60 backdrop-blur-md border border-white/15 rounded-full pointer-events-auto select-none shadow-xl">
+    <div className="flex items-center gap-1.5 p-1 bg-black/75 backdrop-blur-md border border-white/20 rounded-full pointer-events-auto select-none shadow-2xl">
       {presets.map((p) => {
         const Icon = p.icon;
         const isActive = currentPreset === p.id;
@@ -30,10 +30,10 @@ export default function CameraPresetsBar({
             key={p.id}
             onClick={() => onSelectPreset(p.id)}
             title={p.desc}
-            className={`px-3 py-1.5 rounded-full text-xs font-['Space_Grotesk'] font-medium uppercase tracking-wider transition-all flex items-center gap-1.5 ${
+            className={`px-3 py-1.5 rounded-full text-[11px] font-mono font-semibold uppercase tracking-[0.1em] transition-all flex items-center gap-1.5 border ${
               isActive
-                ? 'bg-white text-black font-bold shadow-md scale-105'
-                : 'text-zinc-400 hover:text-white hover:bg-white/10'
+                ? 'bg-white text-black font-bold shadow-[0_0_14px_rgba(255,255,255,0.45)] scale-105 border-white'
+                : 'text-zinc-400 hover:text-white hover:bg-white/10 border-transparent'
             }`}
           >
             <Icon className="w-3.5 h-3.5" />
@@ -47,7 +47,7 @@ export default function CameraPresetsBar({
       {/* Direct link to LOLA DEM 3D surface view */}
       <button
         onClick={onNavigateToSurface}
-        className="px-3 py-1.5 rounded-full text-xs font-['Space_Grotesk'] font-semibold uppercase tracking-wider text-amber-300 hover:text-black hover:bg-amber-400 transition-all flex items-center gap-1.5 border border-amber-500/30"
+        className="px-3 py-1.5 rounded-full text-[11px] font-mono font-semibold uppercase tracking-[0.1em] text-amber-300 hover:text-black hover:bg-amber-400 transition-all flex items-center gap-1.5 border border-amber-500/40 bg-amber-500/10 shadow-sm"
         title="Explore LOLA 5m/px DEM 3D Surface Terrain"
       >
         <Mountain className="w-3.5 h-3.5" />

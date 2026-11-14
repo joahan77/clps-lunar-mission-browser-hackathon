@@ -281,7 +281,7 @@ export default function OrbitView() {
             {/* Mission Dossier Modal Button */}
             <button
               onClick={() => setIsDossierOpen(true)}
-              className="border border-white/20 bg-black/40 hover:bg-white/10 hover:border-white/40 text-zinc-200 hover:text-white px-3 sm:px-4 py-2 rounded-md font-mono text-xs sm:text-sm uppercase tracking-wider transition-all flex items-center gap-2 backdrop-blur-md"
+              className="border border-white/20 bg-black/40 hover:bg-white/10 hover:border-white/40 text-zinc-200 hover:text-white px-3 py-1.5 rounded-md font-mono text-[11px] font-semibold uppercase tracking-[0.1em] transition-all flex items-center gap-2 backdrop-blur-md"
             >
               <FileText className="w-3.5 h-3.5 text-amber-400" />
               <span className="hidden sm:inline">Dossier</span>
@@ -290,9 +290,9 @@ export default function OrbitView() {
             {/* Heatmap Toggle */}
             <button
               onClick={() => setShowHeatmap(!showHeatmap)}
-              className={`border px-3 sm:px-4 py-2 rounded-md font-mono text-xs sm:text-sm uppercase tracking-wider transition-all flex items-center gap-2 backdrop-blur-md ${
+              className={`border px-3 py-1.5 rounded-md font-mono text-[11px] font-semibold uppercase tracking-[0.1em] transition-all flex items-center gap-2 backdrop-blur-md ${
                 showHeatmap
-                  ? 'bg-amber-500/20 text-amber-300 border-amber-400/50 shadow-[0_0_10px_rgba(251,191,36,0.3)]'
+                  ? 'bg-amber-500/20 text-amber-300 border-amber-400/50 shadow-[0_0_10px_rgba(251,191,36,0.3)] font-bold'
                   : 'border-white/20 bg-black/40 hover:bg-white/10 hover:border-white/40 text-zinc-300 hover:text-white'
               }`}
             >
@@ -303,7 +303,7 @@ export default function OrbitView() {
             {/* Educator Mode Switch */}
             <button
               onClick={toggleEducatorMode}
-              className={`border px-3 sm:px-4 py-2 rounded-md font-mono text-xs sm:text-sm uppercase tracking-wider transition-all flex items-center gap-2 backdrop-blur-md ${
+              className={`border px-3 py-1.5 rounded-md font-mono text-[11px] font-semibold uppercase tracking-[0.1em] transition-all flex items-center gap-2 backdrop-blur-md ${
                 isEducatorMode
                   ? 'bg-amber-400 text-black border-amber-300 font-bold shadow-[0_0_12px_rgba(251,191,36,0.5)]'
                   : 'border-white/20 bg-black/40 hover:bg-white/10 hover:border-white/40 text-zinc-300 hover:text-white'
@@ -317,7 +317,7 @@ export default function OrbitView() {
             {/* Compare Sites Link */}
             <button
               onClick={() => navigate('/compare')}
-              className="border border-white/20 bg-black/40 hover:bg-white/10 hover:border-white/40 text-zinc-200 hover:text-white px-3 sm:px-4 py-2 rounded-md font-mono text-xs sm:text-sm uppercase tracking-wider transition-all flex items-center gap-1.5 backdrop-blur-md"
+              className="border border-white/20 bg-black/40 hover:bg-white/10 hover:border-white/40 text-zinc-200 hover:text-white px-3 py-1.5 rounded-md font-mono text-[11px] font-semibold uppercase tracking-[0.1em] transition-all flex items-center gap-1.5 backdrop-blur-md"
             >
               <span>Compare Sites</span>
             </button>

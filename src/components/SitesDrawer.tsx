@@ -51,7 +51,7 @@ export default function SitesDrawer({
         aria-expanded={isOpen}
         aria-haspopup="true"
         aria-label={`List of ${sites.length} landing sites`}
-        className="border border-white/20 bg-black/40 hover:bg-white/10 hover:border-white/40 text-zinc-200 hover:text-white px-3 sm:px-4 py-2 rounded-md font-mono text-xs sm:text-sm uppercase tracking-wider transition-all flex items-center gap-2 focus:outline-none backdrop-blur-md"
+        className="border border-white/20 bg-black/40 hover:bg-white/10 hover:border-white/40 text-zinc-200 hover:text-white px-3 py-1.5 rounded-md font-mono text-[11px] font-semibold uppercase tracking-[0.1em] transition-all flex items-center gap-2 focus:outline-none backdrop-blur-md"
       >
         <MapPin className="w-3.5 h-3.5 text-indigo-400" />
         <span>Sites ({sites.length})</span>

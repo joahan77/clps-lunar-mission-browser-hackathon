@@ -38,3 +38,5 @@ yarn-error.log*
 .vscode/
 .idea/
 .DS_Store
+src_backup/ 
+tsconfig.tsbuildinfo 

@@ -132,31 +132,38 @@ export default function Dashboard({
   return (
     <div className="flex flex-col md:flex-row h-screen w-full bg-transparent text-white overflow-hidden select-none">
       {/* ── Left Telemetry Rail (Sleek Obsidian Mission Cockpit) ── */}
-      {/* ── Left Telemetry Rail (Desktop Fixed / Mobile Tabbed View) ── */}
-      <aside className={`w-full md:w-80 flex-shrink-0 bg-[#090a10]/95 backdrop-blur-md border-r border-white/10 flex-col justify-between z-20 overflow-hidden ${
-        mobileTab === 'telemetry' ? 'flex flex-1 h-[calc(100vh-56px)] md:h-full' : 'hidden md:flex md:h-full'
-      }`}>
+      {/* ── Left Telemetry Rail (Mobile: Top 33vh / Desktop: Side-by-side w-80) ── */}
+      <aside className="w-full md:w-80 h-[33vh] md:h-full flex-shrink-0 bg-[#090a10]/95 backdrop-blur-md border-b md:border-b-0 md:border-r border-white/10 flex flex-col justify-between z-20 overflow-hidden">
         {/* Top Header & Back to Orbit Navigation */}
         <div className="p-4 border-b border-white/10 flex-shrink-0 space-y-3">
-          <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2 overflow-x-auto whitespace-nowrap text-xs pb-1 scrollbar-none">
             <button
               onClick={() => navigate('/')}
-              className="text-xs font-mono text-zinc-400 hover:text-white flex items-center gap-1.5 transition-colors py-1 px-2 rounded border border-white/10 hover:border-white/20 bg-black/40"
+              className="text-xs font-mono text-zinc-400 hover:text-white flex items-center gap-1.5 transition-colors py-1 px-2.5 rounded border border-white/10 hover:border-white/20 bg-black/40 shrink-0"
+              title="Return to Cislunar Orbit"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
-              <span>Orbit View</span>
+              <span>Orbit</span>
+            </button>
+            <button
+              onClick={() => navigate('/compare')}
+              className="text-xs font-mono text-zinc-400 hover:text-white flex items-center gap-1.5 transition-colors py-1 px-2.5 rounded border border-white/10 hover:border-white/20 bg-black/40 shrink-0"
+              title="Compare all landing sites"
+            >
+              <Layers className="w-3.5 h-3.5 text-indigo-400" />
+              <span>Compare Sites</span>
             </button>
             <button
               onClick={toggleEducatorMode}
-              className={`text-[10px] font-mono px-2 py-1 rounded-md transition-all flex items-center gap-1.5 border ${
+              className={`text-xs font-mono px-2.5 py-1 rounded-md transition-all flex items-center gap-1.5 border shrink-0 ${
                 isEducatorMode
                   ? 'bg-amber-400 text-black border-amber-300 font-bold shadow-[0_0_10px_rgba(251,191,36,0.4)]'
                   : 'bg-black/40 text-zinc-300 border-white/10 hover:border-white/20 hover:text-white'
               }`}
               title="Toggle Educator Mode for simplified explanations"
             >
-              <GraduationCap className="w-3 h-3" />
-              <span>Educator</span>
+              <GraduationCap className="w-3.5 h-3.5" />
+              <span>Educator Mode</span>
             </button>
           </div>
 
@@ -250,7 +257,7 @@ export default function Dashboard({
                       : 'Total Darkness'}
                   </div>
                 ) : (
-                  <div className="font-['Space_Grotesk'] text-xl font-bold text-white tabular-nums mt-0.5">
+                  <div className="font-['Space_Grotesk'] text-base sm:text-xl font-bold text-white tabular-nums mt-0.5">
                     {parseFloat(animatedSunElevation) > 0 ? '+' : ''}{animatedSunElevation}°
                   </div>
                 )}
@@ -288,7 +295,7 @@ export default function Dashboard({
                     <Info className="w-3 h-3" />
                   </button>
                 </div>
-                <div className="font-['Space_Grotesk'] text-xl font-bold text-white tabular-nums mt-0.5">
+                <div className="font-['Space_Grotesk'] text-base sm:text-xl font-bold text-white tabular-nums mt-0.5">
                   {parseFloat(animatedEarthElevation) > 0 ? '+' : ''}{animatedEarthElevation}°
                 </div>
               </div>
@@ -324,7 +331,7 @@ export default function Dashboard({
                       <Info className="w-3 h-3" />
                     </button>
                   </div>
-                  <div className="font-['Space_Grotesk'] text-lg font-bold text-white tabular-nums mt-0.5">
+                  <div className="font-['Space_Grotesk'] text-base sm:text-lg font-bold text-white tabular-nums mt-0.5">
                     {animatedSolar} <span className="text-xs font-mono font-normal text-zinc-400">W/m²</span>
                   </div>
                 </div>
@@ -374,7 +381,7 @@ export default function Dashboard({
                         </span>
                       </div>
                     ) : (
-                      <div className="font-['Space_Grotesk'] text-lg font-bold text-white tabular-nums mt-0.5">
+                      <div className="font-['Space_Grotesk'] text-base sm:text-lg font-bold text-white tabular-nums mt-0.5">
                         {tempVal.toFixed(1)} <span className="text-xs font-mono font-normal text-zinc-400">K</span>
                       </div>
                     )}
@@ -420,7 +427,7 @@ export default function Dashboard({
                         </span>
                       </div>
                     ) : (
-                      <div className="font-['Space_Grotesk'] text-lg font-bold text-white tabular-nums mt-0.5">
+                      <div className="font-['Space_Grotesk'] text-base sm:text-lg font-bold text-white tabular-nums mt-0.5">
                         {slopeVal.toFixed(1)} <span className="text-xs font-mono font-normal text-zinc-400">deg</span>
                       </div>
                     )}
@@ -463,7 +470,7 @@ export default function Dashboard({
                         </span>
                       </div>
                     ) : (
-                      <div className="font-['Space_Grotesk'] text-lg font-bold text-white tabular-nums mt-0.5">
+                      <div className="font-['Space_Grotesk'] text-base sm:text-lg font-bold text-white tabular-nums mt-0.5">
                         {waterVal.toFixed(1)} <span className="text-xs font-mono font-normal text-zinc-400">%</span>
                       </div>
                     )}
@@ -491,10 +498,8 @@ export default function Dashboard({
       </aside>
 
       {/* ── Main Area (3D Terrain Scene + 30-Day Recharts Profile) ── */}
-      {/* ── Main Area (3D Terrain Scene + 30-Day Recharts Profile) ── */}
-      <main className={`flex-1 flex-col min-w-0 ${
-        mobileTab !== 'telemetry' ? 'flex h-[calc(100vh-56px)] md:h-full' : 'hidden md:flex md:h-full'
-      } pb-14 md:pb-0 relative`}>
+      {/* ── Main Area (Mobile: Bottom 67vh / Desktop: Flex-1 h-full) ── */}
+      <main className="flex-1 flex flex-col w-full h-[67vh] md:h-full min-w-0 overflow-hidden relative">
         {/* ── Educator Mode Welcoming Banner ── */}
         {isEducatorMode && (
           <div className="w-full bg-gradient-to-r from-amber-500/20 via-indigo-950/60 to-amber-500/20 border-b border-amber-500/40 px-4 py-2 flex items-center justify-between text-xs font-mono text-amber-200 z-30 backdrop-blur-md shrink-0">
@@ -514,9 +519,7 @@ export default function Dashboard({
           </div>
         )}
         {/* Top Section (3D Surface View - 60% height) */}
-        <div className={`relative w-full bg-transparent overflow-hidden ${
-          mobileTab === 'chart' ? 'hidden md:block md:h-[60%]' : mobileTab === '3d' ? 'h-full md:h-[60%]' : 'h-[60%]'
-        }`}>
+        <div className="relative w-full h-[37vh] md:h-[60%] bg-transparent overflow-hidden flex-shrink-0">
           <Scene
             sunElevation={currentPoint.sunElevation}
             earthElevation={currentPoint.earthElevation}
@@ -627,9 +630,7 @@ export default function Dashboard({
         </div>
 
         {/* Bottom Section (Dual-Line Telemetry Profile - 40% height) */}
-        <div className={`w-full bg-[#08090e] border-t border-white/10 p-3 sm:p-4 flex-col justify-between overflow-hidden ${
-          mobileTab === '3d' ? 'hidden md:flex md:h-[40%]' : mobileTab === 'chart' ? 'flex h-full md:h-[40%]' : 'h-[40%]'
-        }`}>
+        <div className="w-full h-[30vh] md:h-[40%] bg-[#08090e] border-t border-white/10 p-2 sm:p-4 flex flex-col justify-between overflow-hidden flex-shrink-0">
           {/* Chart Header */}
           <div className="flex items-center justify-between mb-1 flex-shrink-0">
             <div className="flex items-center gap-3">
@@ -770,39 +771,7 @@ export default function Dashboard({
         <FooterAttribution />
       </main>
 
-      {/* ── Mobile Bottom Navigation Bar (Hidden on Desktop md:) ── */}
-      <nav className="fixed bottom-0 left-0 right-0 z-40 bg-[#090a10]/95 border-t border-white/10 backdrop-blur-lg py-2 px-6 flex items-center justify-around md:hidden">
-        <button
-          onClick={() => setMobileTab('3d')}
-          className={`flex flex-col items-center gap-1 text-[10px] font-mono transition-colors ${
-            mobileTab === '3d' ? 'text-amber-400 font-bold' : 'text-zinc-400 hover:text-white'
-          }`}
-        >
-          <Compass className="w-4 h-4" />
-          <span>3D Surface</span>
-        </button>
-        <button
-          onClick={() => setMobileTab('telemetry')}
-          className={`flex flex-col items-center gap-1 text-[10px] font-mono transition-colors relative ${
-            mobileTab === 'telemetry' ? 'text-amber-400 font-bold' : 'text-zinc-400 hover:text-white'
-          }`}
-        >
-          <Layers className="w-4 h-4" />
-          <span>Telemetry</span>
-          {isDaylight && isLos && (
-            <span className="absolute 0 right-2 w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-          )}
-        </button>
-        <button
-          onClick={() => setMobileTab('chart')}
-          className={`flex flex-col items-center gap-1 text-[10px] font-mono transition-colors ${
-            mobileTab === 'chart' ? 'text-amber-400 font-bold' : 'text-zinc-400 hover:text-white'
-          }`}
-        >
-          <Activity className="w-4 h-4" />
-          <span>Elevation Chart</span>
-        </button>
-      </nav>
+      
 
       {/* Global FPS Monitor HUD */}
       <FpsMonitor />

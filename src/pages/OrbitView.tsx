@@ -209,7 +209,7 @@ export default function OrbitView() {
       {/* ── Minimalist Clean Hero Overlay ── */}
       <div className="absolute inset-0 z-10 flex flex-col justify-between p-5 pointer-events-none">
         {/* Top Header Bar */}
-        <header className="w-full flex items-center justify-between gap-4 pointer-events-auto">
+        <header className="w-full flex items-center justify-between gap-2 sm:gap-4 pointer-events-auto overflow-x-auto whitespace-nowrap text-xs pb-1 scrollbar-none">
           {/* Brand Wordmark & Mission Selector */}
           <div className="flex items-center gap-3">
             <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse shrink-0" />

@@ -405,6 +405,19 @@ function SceneDisposalManager() {
   return null;
 }
 
+
+/** Enforces mobile DPR [1, 1.5] to prevent mobile GPU throttling */
+function MobilePerformanceAdapter() {
+  const { gl } = useThree();
+  useEffect(() => {
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    if (isMobile) {
+      gl.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+    }
+  }, [gl]);
+  return null;
+}
+
 export default function Scene({ sunElevation, earthElevation, heightmapUrl }: SceneProps) {
   const { lowQuality } = useAppStore();
 
@@ -415,6 +428,7 @@ export default function Scene({ sunElevation, earthElevation, heightmapUrl }: Sc
     <View className="w-full h-full pointer-events-auto">
       <SceneDisposalManager />
       <PerspectiveCamera makeDefault position={[0, 30, 50]} fov={45} />
+      <MobilePerformanceAdapter />
       <color attach="background" args={['#000000']} />
       <fogExp2 attach="fog" args={['#000000', 0.015]} />
 

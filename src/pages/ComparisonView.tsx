@@ -400,7 +400,7 @@ export default function ComparisonView() {
                   </div>
 
                   {/* Middle: Counting-up Telemetry Metrics */}
-                  <div className="flex flex-wrap items-center gap-6 sm:gap-8 border-y lg:border-y-0 lg:border-l border-t3-haze/20 py-3 lg:py-0 lg:pl-8">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-8 border-y lg:border-y-0 lg:border-l border-t3-haze/20 py-3 lg:py-0 lg:pl-8">
                     <VerdictStat label="Composite Score" value={topSite.compositeScore} unit="/100" />
                     <VerdictStat label="Comms Uptime" value={parseFloat(topSite.commsUptime)} unit="%" />
                     <VerdictStat label="Sun Hours" value={topSite.sunHours} unit="h" />
@@ -442,7 +442,7 @@ export default function ComparisonView() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-1">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 pt-1">
                 {/* Sun Hours Weight Slider */}
                 <div className="space-y-1.5">
                   <div className="flex justify-between text-xs font-mono">

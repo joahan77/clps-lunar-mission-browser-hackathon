@@ -18,7 +18,7 @@ export default function GlobalCanvas({ containerRef }: GlobalCanvasProps) {
         key={canvasKey}
         eventSource={containerRef as any}
         className="w-full h-full pointer-events-none"
-        dpr={[1, Math.min(typeof window !== 'undefined' ? window.devicePixelRatio : 1, lowQuality ? 1.0 : 2.0)]}
+        dpr={typeof window !== 'undefined' && window.innerWidth < 768 ? [1, 1.5] : [1, Math.min(typeof window !== 'undefined' ? window.devicePixelRatio : 1, lowQuality ? 1.0 : 2.0)]}
         performance={{ min: 0.5 }}
         gl={{
           antialias: !lowQuality,

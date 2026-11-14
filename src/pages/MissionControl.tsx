@@ -162,30 +162,30 @@ export default function MissionControl() {
       <DescentOverlay />
 
       {/* ── TOP FLOATING NAVIGATION CHROME ── */}
-      <div className="absolute top-4 right-4 z-50 flex items-center gap-2">
-        <button
-          onClick={toggleEducatorMode}
-          className={`font-t2-nbarchitekt text-t2-body-sm px-t2-14 py-t2-6 rounded-t2-md flex items-center gap-1.5 transition-all border ${
-            isEducatorMode
-              ? 'bg-amber-400 text-black border-amber-300 font-bold shadow-[0_0_12px_rgba(251,191,36,0.5)]'
-              : 'bg-black/50 text-t2-ghost-white border-t2-ash-border hover:bg-white/[0.08] hover:border-t2-smoke'
-          }`}
-          title="Toggle Educator Mode for simplified explanations"
-        >
-          <GraduationCap className="w-3.5 h-3.5" />
-          <span>Educator Mode</span>
-        </button>
+      <div className="absolute top-4 right-4 z-50 flex items-center gap-3 sm:gap-4 pointer-events-auto">
         <button
           onClick={handleReturnToOrbit}
-          className="font-t2-nbarchitekt text-t2-body-sm text-t2-ghost-white bg-black/50 backdrop-blur-[4px] border border-t2-ash-border rounded-t2-md px-t2-14 py-t2-6 hover:bg-white/[0.08] hover:border-t2-smoke transition-colors focus:outline-none focus:ring-1 focus:ring-t2-ghost-white"
+          className="border border-white/20 bg-black/40 hover:bg-white/10 hover:border-white/40 text-zinc-200 hover:text-white px-3 sm:px-4 py-2 rounded-md font-mono text-xs sm:text-sm uppercase tracking-wider transition-all flex items-center gap-2 backdrop-blur-md shadow-lg"
         >
-          ← Return to Orbit
+          <span>← Return to Orbit</span>
         </button>
         <button
           onClick={() => navigate('/compare')}
-          className="font-t2-nbarchitekt text-t2-body font-bold text-t2-ghost-white bg-t2-dusk-violet border border-t2-dusk-violet rounded-t2-full px-t2-18 py-t2-4 hover:opacity-90 transition-opacity focus:outline-none focus:ring-1 focus:ring-t2-ghost-white"
+          className="border border-white/20 bg-black/40 hover:bg-white/10 hover:border-white/40 text-zinc-200 hover:text-white px-3 sm:px-4 py-2 rounded-md font-mono text-xs sm:text-sm uppercase tracking-wider transition-all flex items-center gap-2 backdrop-blur-md shadow-lg"
         >
-          Compare Sites
+          <span>Compare Sites</span>
+        </button>
+        <button
+          onClick={toggleEducatorMode}
+          className={`border px-3 sm:px-4 py-2 rounded-md font-mono text-xs sm:text-sm uppercase tracking-wider transition-all flex items-center gap-2 backdrop-blur-md shadow-lg ${
+            isEducatorMode
+              ? 'bg-amber-400 text-black border-amber-300 font-bold shadow-[0_0_12px_rgba(251,191,36,0.5)]'
+              : 'border-white/20 bg-black/40 hover:bg-white/10 hover:border-white/40 text-zinc-200 hover:text-white'
+          }`}
+          title="Toggle Educator Mode for simplified explanations"
+        >
+          <GraduationCap className="w-3.5 h-3.5 text-amber-400" />
+          <span>Educator Mode</span>
         </button>
       </div>
 

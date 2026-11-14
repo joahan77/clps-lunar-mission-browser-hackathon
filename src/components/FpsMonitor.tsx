@@ -10,7 +10,7 @@ export default function FpsMonitor() {
     fps >= 55 ? 'text-data-nominal-text' : fps >= 30 ? 'text-data-degraded-text' : 'text-data-blackout-text';
 
   return (
-    <div className="fixed bottom-3 left-4 z-50 flex items-center gap-2 select-none">
+    <div className="fixed bottom-12 sm:bottom-14 left-4 z-50 flex items-center gap-2 select-none">
       {/* Toggle button */}
       <button
         onClick={() => setShowFps(!showFps)}

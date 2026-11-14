@@ -47,15 +47,15 @@ export default function SitesDrawer({
     <div ref={drawerRef} className="relative z-30 pointer-events-auto">
       {/* Collapsed Toggle Button */}
       <button
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => setIsOpen((prev) => !prev)}
         aria-expanded={isOpen}
         aria-haspopup="true"
-        aria-label="Accessible list of 8 lunar landing sites"
-        className="font-t2-nbarchitekt text-t2-body-sm text-t2-ghost-white border border-t2-ash-border rounded-t2-md px-3 py-2 bg-black/80 hover:bg-white/[0.08] hover:border-t2-smoke transition-all flex items-center gap-2 focus:outline-none focus:ring-1 focus:ring-t2-ghost-white"
+        aria-label={`List of ${sites.length} landing sites`}
+        className="border border-white/20 bg-black/40 hover:bg-white/10 hover:border-white/40 text-zinc-200 hover:text-white px-3 sm:px-4 py-2 rounded-md font-mono text-xs sm:text-sm uppercase tracking-wider transition-all flex items-center gap-2 focus:outline-none backdrop-blur-md"
       >
         <MapPin className="w-3.5 h-3.5 text-indigo-400" />
         <span>Sites ({sites.length})</span>
-        {isOpen ? <ChevronUp className="w-3.5 h-3.5 text-t2-smoke" /> : <ChevronDown className="w-3.5 h-3.5 text-t2-smoke" />}
+        {isOpen ? <ChevronUp className="w-3.5 h-3.5 text-zinc-400" /> : <ChevronDown className="w-3.5 h-3.5 text-zinc-400" />}
       </button>
 
       {/* Expanded Accessible Drawer Panel */}
@@ -63,7 +63,7 @@ export default function SitesDrawer({
         <div
           role="region"
           aria-label="Lunar landing sites keyboard navigation menu"
-          className="absolute right-0 top-full mt-2 w-72 sm:w-80 bg-zinc-950 border border-t2-ash-border rounded-t2-xl p-3 shadow-none z-50 animate-in fade-in zoom-in-95 duration-150"
+          className="absolute right-0 top-full mt-2 w-72 sm:w-80 bg-[#0a0b12]/95 backdrop-blur-xl border border-white/20 rounded-xl p-3 shadow-2xl z-50 pointer-events-auto animate-in fade-in zoom-in-95 duration-150"
         >
           <div className="flex items-center justify-between pb-2 border-b border-zinc-800 mb-2">
             <span className="font-t1-unbounded text-[10px] font-bold text-t1-pure-white uppercase tracking-wider">

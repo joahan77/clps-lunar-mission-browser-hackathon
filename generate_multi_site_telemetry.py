@@ -374,11 +374,11 @@ def main():
                 solar_irradiance = 0.0
 
             # Battery simulation:
-            # 10 m^2 solar array with 30% conversion efficiency, baseline hotel load 50 W
-            power_gen = solar_irradiance * 10.0 * 0.3
-            battery_change = power_gen - 50.0  # Surplus charges battery, deficit drains battery
-            battery_level += (battery_change / 1000.0) * 100.0
-            battery_level = max(0.0, min(100.0, battery_level))
+            power_generated = solar_irradiance * 10.0 * 0.3
+            power_consumed = 50.0
+            net_power = power_generated - power_consumed
+            battery_change = (net_power / 1000.0) * 100.0
+            battery_level = max(0.0, min(100.0, battery_level + battery_change))
 
             # Communications Line-of-Sight and Data Rate
             if earth_elev < 0:

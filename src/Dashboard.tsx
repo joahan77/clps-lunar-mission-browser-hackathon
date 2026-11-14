@@ -118,7 +118,8 @@ export default function Dashboard({
   const animatedSunElevation = useCountUp(currentPoint.sunElevation, 2, 200);
   const animatedEarthElevation = useCountUp(currentPoint.earthElevation, 2, 200);
   const animatedSolar = useCountUp(currentPoint.solarIrradiance || 0, 1, 200);
-  const animatedBattery = useCountUp(currentPoint.batteryLevel || 100, 1, 200);
+  const batteryVal = typeof currentPoint.batteryLevel === 'number' ? currentPoint.batteryLevel : 100.0;
+  const animatedBattery = useCountUp(batteryVal, 1, 150);
 
   const scrambledSiteName = useDecodeScramble(selectedSite.name || '', 400);
   const latDir = selectedSite.lat >= 0 ? '°N' : '°S';
@@ -343,15 +344,21 @@ export default function Dashboard({
               <div className="bg-black/40 border border-white/10 rounded-xl p-3 space-y-1.5">
                 <div className="flex items-center justify-between text-xs font-mono text-zinc-400">
                   <span className="flex items-center gap-1.5">
-                    <Battery className="w-3.5 h-3.5 text-emerald-400" />
+                    <Battery className={`w-3.5 h-3.5 ${
+                      batteryVal < 20 ? 'text-red-400' : batteryVal < 50 ? 'text-amber-400' : 'text-emerald-400'
+                    }`} />
                     <span>Battery Storage</span>
                   </span>
-                  <span className="text-white font-bold tabular-nums">{animatedBattery}%</span>
+                  <span className={`font-bold tabular-nums ${
+                    batteryVal < 20 ? 'text-red-400' : batteryVal < 50 ? 'text-amber-300' : 'text-white'
+                  }`}>{animatedBattery}%</span>
                 </div>
                 <div className="w-full h-1.5 bg-zinc-800 rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-emerald-400 transition-all duration-300 rounded-full"
-                    style={{ width: `${Math.min(currentPoint.batteryLevel, 100)}%` }}
+                    className={`h-full transition-all duration-300 rounded-full ${
+                      batteryVal < 20 ? 'bg-red-500' : batteryVal < 50 ? 'bg-amber-400' : 'bg-emerald-400'
+                    }`}
+                    style={{ width: `${Math.max(0, Math.min(batteryVal, 100))}%` }}
                   />
                 </div>
               </div>

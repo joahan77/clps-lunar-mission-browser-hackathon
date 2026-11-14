@@ -455,6 +455,8 @@ export default function Dashboard({
             {/* Water Ice (ISRU) / Water & Fuel */}
             {(() => {
               const waterVal = currentPoint.waterIcePct ?? selectedSite.summary?.waterIcePct ?? 0.0;
+              const hasIce = waterVal > 0;
+              const isPsr = waterVal > 0 && selectedSite.lat < -70.0;
               return (
                 <div className="bg-black/40 border border-white/10 rounded-xl p-3 flex items-center justify-between">
                   <div>
@@ -482,8 +484,22 @@ export default function Dashboard({
                       </div>
                     )}
                   </div>
-                  <span className="text-[9px] font-mono font-bold uppercase text-sky-300 bg-sky-500/15 border border-sky-500/30 px-2 py-0.5 rounded">
-                    {isEducatorMode ? (waterVal > 50 ? 'Rocket Fuel' : waterVal > 0 ? 'Cold Trap' : 'Dry Rim') : 'Permanently Shadowed'}
+                  <span
+                    className={`text-[9px] font-mono font-bold uppercase px-2 py-0.5 rounded border ${
+                      !hasIce
+                        ? 'text-zinc-400 bg-zinc-800/60 border-zinc-700'
+                        : isEducatorMode
+                        ? (waterVal > 50 ? 'text-sky-300 bg-sky-500/15 border-sky-500/30' : 'text-amber-300 bg-amber-500/15 border-amber-500/30')
+                        : 'text-sky-300 bg-sky-500/15 border-sky-500/30'
+                    }`}
+                  >
+                    {!hasIce
+                      ? 'NONE DETECTED'
+                      : isEducatorMode
+                      ? (waterVal > 50 ? 'Rocket Fuel' : 'Cold Trap')
+                      : isPsr
+                      ? 'PERMANENTLY SHADOWED'
+                      : 'VOLATILE DETECTED'}
                   </span>
                 </div>
               );
@@ -534,6 +550,16 @@ export default function Dashboard({
             earthAzimuth={currentPoint.earthAzimuth ?? 0}
             heightmapUrl={selectedSite.heightmapUrl}
           />
+
+          {/* Lunar Night / Eclipse HUD Status Overlay */}
+          {currentPoint.sunElevation < 0 && (
+            <div className="absolute top-16 sm:top-20 left-1/2 -translate-x-1/2 z-20 pointer-events-none animate-in fade-in duration-200">
+              <div className="px-3 py-1 sm:px-4 sm:py-1.5 rounded-full bg-black/80 backdrop-blur-md border border-amber-500/40 text-amber-300 flex items-center gap-2 font-mono text-[10px] sm:text-xs uppercase tracking-wider shadow-lg">
+                <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse shrink-0" />
+                <span>LUNAR NIGHT - VISUAL SPECTRUM LOW</span>
+              </div>
+            </div>
+          )}
 
           {/* Loading overlay when switching sites */}
           {isSiteFetching && (

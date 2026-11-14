@@ -432,10 +432,14 @@ export default function Scene({ sunElevation, earthElevation, heightmapUrl }: Sc
       <PerspectiveCamera makeDefault position={[0, 30, 50]} fov={45} />
       <MobilePerformanceAdapter />
       <color attach="background" args={['#000000']} />
-      <fogExp2 attach="fog" args={['#000000', 0.015]} />
+      {/* Dynamic fog: relaxed during night to prevent terrain silhouette disappearance */}
+      <fogExp2 attach="fog" args={['#000000', sunElevation < 0 ? 0.006 : 0.014]} />
 
-      {/* Earthshine & Crater Fill Light */}
-      <ambientLight intensity={0.15 + earthshineIntensity} color={earthElevation > 0 ? '#60a5fa' : '#cbd5e1'} />
+      {/* Earthshine & Starlight Ambient Light (intensity 0.20 so silhouette remains visible during night) */}
+      <ambientLight
+        intensity={sunElevation < 0 ? 0.20 : 0.18 + earthshineIntensity}
+        color={earthElevation > 0 ? '#93c5fd' : '#cbd5e1'}
+      />
 
       {/* Low horizontal grazing Sun with long shadows & real-time scrub */}
       <SunDirectionalLight sunElevation={sunElevation} />

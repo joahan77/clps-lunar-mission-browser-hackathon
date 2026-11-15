@@ -1,6 +1,7 @@
 # 🌕 CLPS Lunar Mission Browser
 ### Next-Generation 3D Cislunar Orbit & South Pole Surface Telemetry Digital Twin
 
+[![Live Demo](https://img.shields.io/badge/Live_App-clps--lunar--mission--browser.vercel.app-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://clps-lunar-mission-browser-hackatho.vercel.app/)
 [![NASA Space Apps Challenge 2026](https://img.shields.io/badge/NASA_Space_Apps-2026_Submission-blue?style=for-the-badge&logo=nasa)](https://www.spaceappschallenge.org/)
 [![React 18](https://img.shields.io/badge/React-18.3-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
 [![Three.js](https://img.shields.io/badge/Three.js-WebGL_60FPS-black?style=for-the-badge&logo=three.js)](https://threejs.org/)
@@ -8,6 +9,9 @@
 [![NASA JPL DE421](https://img.shields.io/badge/NASA_JPL-DE421_Ephemeris-red?style=for-the-badge&logo=nasa)](https://ssd.jpl.nasa.gov/)
 [![Tailwind CSS v4](https://img.shields.io/badge/Tailwind_CSS-v4.0-38BDF8?style=for-the-badge&logo=tailwindcss)](https://tailwindcss.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-emerald?style=for-the-badge)](LICENSE)
+
+> 🚀 **Live Web Application:** [https://clps-lunar-mission-browser-hackatho.vercel.app/](https://clps-lunar-mission-browser-hackatho.vercel.app/)  
+> *Explore real-time 3D cislunar orbits, LOLA DEM surface altimetry, and 720-hour mission telemetry directly in your browser on desktop and mobile.*
 
 ---
 
@@ -49,7 +53,8 @@ However, operating a robotic lander at the South Pole poses a severe **survival 
 * Cross-benchmarks all candidate South Pole locations against the equatorial baseline of **Apollo 11**.
 * Demonstrates why the South Pole is essential: **Peaks of Light (Shackleton Rim & Malapert) offer 86%–92% continuous sunlight**, avoiding the brutal 14-day total blackout night experienced at the lunar equator.
 * **Algorithmic MCDA Suitability Scorecard:**
-  $$\text{Suitability Score } S = 0.40 \cdot \left(\frac{T_{\text{sun}}}{720}\right) + 0.35 \cdot \left(\frac{\text{Comms } \%}{100}\right) + 0.25 \cdot \left(\frac{\min(I_{\text{avg}}, 50)}{50}\right)$$
+
+$$\text{Suitability Score } S = 0.40 \cdot \left(\frac{T_{\text{sun}}}{720}\right) + 0.35 \cdot \left(\frac{\text{Comms } \%}{100}\right) + 0.25 \cdot \left(\frac{\min(I_{\text{avg}}, 50)}{50}\right)$$
 
 ### 4. 🛰️ Cislunar Flight Path & Trajectory Tracker
 * Orbital visualization from Earth departure and LEO injection to trans-lunar cruise and orbital insertion waypoints.
@@ -80,13 +85,15 @@ In adherence to scientific integrity principles, every number displayed in the d
 
 The lander's electrical power subsystem is modeled hour-by-hour sequentially across the entire 720-hour lunar month:
 
-$$\begin{aligned}
-P_{\text{generated}} &= I_{\text{solar}} \times A_{\text{array}} \times \eta_{\text{solar}} = I_{\text{solar}} \times 10\,\text{m}^2 \times 0.30 \\
-P_{\text{consumed}} &= 50\,\text{W} \quad (\text{Lander base hotel load}) \\
-P_{\text{net}} &= P_{\text{generated}} - P_{\text{consumed}} \\
-\Delta B &= \left(\frac{P_{\text{net}} \times 1\,\text{h}}{C_{\text{battery}}}\right) \times 100\% = \left(\frac{P_{\text{net}}}{1000\,\text{Wh}}\right) \times 100\% \\
-B_{t+1} &= \max\left(0.0\%, \min\left(100.0\%, B_t + \Delta B\right)\right)
-\end{aligned}$$
+$$P_{\text{generated}} = I_{\text{solar}} \times A_{\text{array}} \times \eta_{\text{solar}} = I_{\text{solar}} \times 10\,\text{m}^2 \times 0.30$$
+
+$$P_{\text{consumed}} = 50\,\text{W} \quad (\text{Lander base hotel load})$$
+
+$$P_{\text{net}} = P_{\text{generated}} - P_{\text{consumed}}$$
+
+$$\Delta B = \left(\frac{P_{\text{net}} \times 1\,\text{h}}{C_{\text{battery}}}\right) \times 100\% = \left(\frac{P_{\text{net}}}{1000\,\text{Wh}}\right) \times 100\%$$
+
+$$B_{t+1} = \max\left(0.0\%, \min\left(100.0\%, B_t + \Delta B\right)\right)$$
 
 * **During Daylight:** The $10\,\text{m}^2$ high-efficiency triple-junction array rapidly recharges the battery to 100%.
 * **During Eclipses / Sunset:** Net power flips negative ($-50\,\text{W}$), draining the $1000\,\text{Wh}$ battery at **$5\%$ per hour**, accurately illustrating why long shadow passages cause mission-ending battery depletion.
@@ -117,20 +124,20 @@ B_{t+1} &= \max\left(0.0\%, \min\left(100.0\%, B_t + \Delta B\right)\right)
 ## 💻 Tech Stack & Architecture
 
 ```mermaid
-graph LR
-    subgraph Data Pipeline [NASA Science Data Pipeline (Python)]
-        A[NASA JPL Horizons / SPICE] --> B[Skyfield Astronomical Kernel]
-        C[LRO LOLA & SLDEM2015] --> D[Rasterio / NumPy DEM Raycasting]
-        B --> E[720h JSON Telemetry Payload]
+flowchart LR
+    subgraph Pipeline["NASA Science Data Pipeline"]
+        A["NASA JPL Horizons / SPICE"] --> B["Skyfield Astronomical Kernel"]
+        C["LRO LOLA & SLDEM2015"] --> D["Rasterio / NumPy DEM Raycasting"]
+        B --> E["720h JSON Telemetry Payload"]
         D --> E
     end
 
-    subgraph Frontend [Zero-Cloud Client Architecture (React 18)]
-        E --> F[Zustand Mission Store]
-        F --> G[Three.js / React Three Fiber Canvas]
-        F --> H[Tactical Telemetry Rail HUD]
-        F --> I[Recharts 30-Day Illumination Engine]
-        G --> J[60 FPS GPU Rendering]
+    subgraph Client["Zero-Cloud Client Architecture"]
+        E --> F["Zustand Mission Store"]
+        F --> G["Three.js / React Three Fiber Canvas"]
+        F --> H["Tactical Telemetry Rail HUD"]
+        F --> I["Recharts 30-Day Illumination Engine"]
+        G --> J["60 FPS GPU Rendering"]
     end
 ```
 
@@ -226,7 +233,7 @@ This updates all 14 site profiles in `public/*_data.json` with synchronized sola
 
 ## 🏆 NASA Space Apps Challenge 2026 Deliverables
 
-* **Interactive Web Application:** Fully responsive on desktop workstations and mobile screens.
+* **Live Web Application:** [https://clps-lunar-mission-browser-hackatho.vercel.app/](https://clps-lunar-mission-browser-hackatho.vercel.app/)
 * **Presentation Deck (7 Slides):**
   * [CLPS_Lunar_Mission_Browser_Presentation.pdf](CLPS_Lunar_Mission_Browser_Presentation.pdf)
   * [CLPS_Lunar_Mission_Browser_Presentation.pptx](CLPS_Lunar_Mission_Browser_Presentation.pptx)

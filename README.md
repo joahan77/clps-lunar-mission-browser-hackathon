@@ -85,15 +85,15 @@ In adherence to scientific integrity principles, every number displayed in the d
 
 The lander's electrical power subsystem is modeled hour-by-hour sequentially across the entire 720-hour lunar month:
 
-$$P_{\text{generated}} = I_{\text{solar}} \times A_{\text{array}} \times \eta_{\text{solar}} = I_{\text{solar}} \times 10\,\text{m}^2 \times 0.30$$
+$$P_{\text{generated}} = I_{\text{solar}} \cdot A_{\text{array}} \cdot \eta_{\text{solar}} = I_{\text{solar}} \cdot 10\,\text{m}^2 \cdot 0.30$$
 
 $$P_{\text{consumed}} = 50\,\text{W} \quad (\text{Lander base hotel load})$$
 
 $$P_{\text{net}} = P_{\text{generated}} - P_{\text{consumed}}$$
 
-$$\Delta B = \left(\frac{P_{\text{net}} \times 1\,\text{h}}{C_{\text{battery}}}\right) \times 100\% = \left(\frac{P_{\text{net}}}{1000\,\text{Wh}}\right) \times 100\%$$
+$$\Delta B = \left( \frac{P_{\text{net}} \cdot 1\,\text{h}}{C_{\text{battery}}} \right) \cdot 100$$
 
-$$B_{t+1} = \max\left(0.0\%, \min\left(100.0\%, B_t + \Delta B\right)\right)$$
+$$B_{t+1} = \max\big(0.0, \, \min(100.0, \, B_t + \Delta B)\big)$$
 
 * **During Daylight:** The $10\,\text{m}^2$ high-efficiency triple-junction array rapidly recharges the battery to 100%.
 * **During Eclipses / Sunset:** Net power flips negative ($-50\,\text{W}$), draining the $1000\,\text{Wh}$ battery at **$5\%$ per hour**, accurately illustrating why long shadow passages cause mission-ending battery depletion.
@@ -124,20 +124,19 @@ $$B_{t+1} = \max\left(0.0\%, \min\left(100.0\%, B_t + \Delta B\right)\right)$$
 ## 💻 Tech Stack & Architecture
 
 ```mermaid
-flowchart LR
-    subgraph Pipeline["NASA Science Data Pipeline"]
-        A["NASA JPL Horizons / SPICE"] --> B["Skyfield Astronomical Kernel"]
-        C["LRO LOLA & SLDEM2015"] --> D["Rasterio / NumPy DEM Raycasting"]
-        B --> E["720h JSON Telemetry Payload"]
+flowchart TD
+    subgraph Pipeline["NASA Science Data Pipeline (Python)"]
+        A["NASA JPL Horizons & SPICE Ephemeris"] --> B["Skyfield Astronomical Kernel"]
+        C["LRO LOLA & SLDEM2015 5m/px Altimetry"] --> D["Rasterio / NumPy Raycasting"]
+        B --> E["Precomputed 720h Telemetry Payload (JSON)"]
         D --> E
     end
 
-    subgraph Client["Zero-Cloud Client Architecture"]
-        E --> F["Zustand Mission Store"]
-        F --> G["Three.js / React Three Fiber Canvas"]
+    subgraph Client["Zero-Cloud Client Architecture (React 18)"]
+        E --> F["Zustand Global Mission Store"]
+        F --> G["Three.js / React Three Fiber Canvas (60 FPS WebGL)"]
         F --> H["Tactical Telemetry Rail HUD"]
-        F --> I["Recharts 30-Day Illumination Engine"]
-        G --> J["60 FPS GPU Rendering"]
+        F --> I["Recharts 30-Day Illumination Profile Engine"]
     end
 ```
 
